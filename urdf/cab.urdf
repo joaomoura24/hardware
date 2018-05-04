@@ -1,0 +1,146 @@
+<?xml version="1.0" ?>
+<!-- ============================================ -->
+<!-- @file cab_exp.urdf -->
+<!-- -->
+<!-- -->
+<!-- @author Joao Moura, Joao.Moura@ed.ac.uk -->
+<!-- @created 05-Feb-2017 -->
+<!-- ============================================ -->
+<robot name="cab" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <material name="Orange">
+        <color rgba="1.0 0.487 0 1.0"/>
+    </material>
+
+    <link name="world_frame"/>
+
+    <joint name="world_base_joint" type="fixed">
+        <origin rpy="0 0 0" xyz="0 0 0"/>
+        <parent link="world_frame"/>
+        <child link="cab_arm_0_link"/>
+    </joint>
+    <link name="cab_arm_0_link">
+        <visual>
+            <origin rpy="0 0 -1.570796326795" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://hardware/meshes/cab/link0.stl"/>
+            </geometry>
+            <material name="Orange"/>
+        </visual>
+    </link>
+
+    <joint name="cab_arm_0_joint" type="prismatic">
+        <origin rpy="0 0 0" xyz="-0.038 -0.0005 0.068"/>
+        <axis xyz="0 0 1"/>
+        <limit effort="204" lower="0.0" upper="0.42" velocity="0.06"/>
+        <dynamics damping="1.0"/>
+        <parent link="cab_arm_0_link"/>
+        <child link="cab_arm_1_link"/>
+    </joint>
+    <link name="cab_arm_1_link">
+        <visual>
+            <origin rpy="0 0 -1.570796326795" xyz="0.038 -0.0005 -0.068"/>
+            <geometry>
+                <mesh filename="package://hardware/meshes/cab/link1.stl"/>
+            </geometry>
+            <material name="Orange"/>
+        </visual>
+    </link>
+
+    <joint name="cab_arm_1_joint" type="prismatic">
+        <origin rpy="0 0 0" xyz="-0.002794 0.08 0.073436"/>
+        <axis xyz="0 1 0"/>
+        <limit effort="204" lower="0.0" upper="0.374" velocity="0.06"/>
+        <dynamics damping="1.0"/>
+        <parent link="cab_arm_1_link"/>
+        <child link="cab_arm_2_link"/>
+    </joint>
+    <link name="cab_arm_2_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0.041814 -0.030269 -0.141484"/>
+            <geometry>
+                <mesh filename="package://hardware/meshes/cab/link2.stl"/>
+            </geometry>
+            <material name="Orange"/>
+        </visual>
+    </link>
+
+    <joint name="cab_arm_2_joint" type="prismatic">
+        <origin rpy="0 0 0" xyz="0.011794 0.0728 0.036764"/>
+        <axis xyz="1 0 0"/>
+        <limit effort="204" lower="0.0" upper="0.165" velocity="0.06"/>
+        <dynamics damping="1.0"/>
+        <parent link="cab_arm_2_link"/>
+        <child link="cab_arm_3_link"/>
+    </joint>
+    <link name="cab_arm_3_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="0.03002 -0.103069 -0.178249"/>
+            <geometry>
+                <mesh filename="package://hardware/meshes/cab/link3.stl"/>
+            </geometry>
+            <material name="Orange"/>
+        </visual>
+    </link>
+
+    <joint name="cab_arm_3_joint" type="revolute">
+        <origin rpy="0 0 0" xyz="0.08955 0.026 -0.08675"/>
+        <axis xyz="1 0 0"/>
+        <limit effort="204" lower="-1.5707963267948966" upper="1.5707963267948966" velocity="5.0"/>
+        <dynamics damping="1.0"/>
+        <parent link="cab_arm_3_link"/>
+        <child link="cab_arm_4_link"/>
+    </joint>
+    <link name="cab_arm_4_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="-0.05953 -0.130069 -0.091449"/>
+            <geometry>
+                <mesh filename="package://hardware/meshes/cab/link4.stl"/>
+            </geometry>
+            <material name="Orange"/>
+        </visual>
+    </link>
+
+    <joint name="cab_arm_4_joint" type="revolute">
+        <origin rpy="0 0 0" xyz="0.0518 0.0 0.022"/>
+        <axis xyz="0 0 -1"/>
+        <limit effort="204" lower="-1.5707963267948966" upper="1.5707963267948966" velocity="5.0"/>
+        <dynamics damping="1.0"/>
+        <parent link="cab_arm_4_link"/>
+        <child link="cab_arm_5_link"/>
+    </joint>
+    <link name="cab_arm_5_link">
+        <visual>
+            <origin rpy="0 0 0" xyz="-0.11133 -0.144069 -0.113499"/>
+            <geometry>
+                <mesh filename="package://hardware/meshes/cab/link5.stl"/>
+            </geometry>
+            <material name="Orange"/>
+        </visual>
+    </link>
+
+  <joint name="force_torque_sensor_mount" type="fixed">
+	<origin rpy="1.5708 0 1.5708" xyz="0.066 0.0 -0.0238"/>
+    
+    <parent link="cab_arm_5_link"/>
+    <child link="force_torque_sensor"/>
+  </joint>
+    <link name="force_torque_sensor">
+    </link>
+
+    <joint name="cab_arm_5_joint" type="revolute">
+        <origin rpy="0 0 0" xyz="0 0 0.070"/>
+<!--
+        <origin rpy="0 0 0" xyz="0.11463 0.0 -0.02279"/>
+-->
+        <axis xyz="0 0 1"/>
+        <limit effort="204" lower="0.0" upper="0.42" velocity="1.91986217719"/>
+        <parent link="force_torque_sensor"/>
+        <child link="contact_point"/>
+    </joint>
+    <link name="contact_point">
+    </link>
+
+
+
+
+</robot>
