@@ -46,7 +46,7 @@ class Kuka
 		 * @brief Commands the robot arm joint positions
 		 * @param q: joint positions
 		 */
-		void setJointPos(const Eigen::Matrix<double, Eigen::Dynamic, 1> &q);
+		int setJointPos(const Eigen::Matrix<double, Eigen::Dynamic, 1> &q);
 		/**¬
 		 * @brief Commands the robot arm joint velocities
 		 * @param q: joint velocities

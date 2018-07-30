@@ -53,19 +53,13 @@ void OptoForce::callbackForceSensing_(const geometry_msgs::WrenchStamped::ConstP
 		if(count == 200){
 			ROS_INFO_STREAM("Motions: Calibration values:");
 			ROS_INFO_STREAM(fcal.transpose());
-<<<<<<< HEAD
-=======
             // Discount initial reading of force sensor
             force -= fcal;
->>>>>>> Add termination of the nodes
 			gotForceSensing = true; // callibration done
 		}
 	}
 	else{
-<<<<<<< HEAD
-=======
         //ROS_ERROR_STREAM("I passed here");
->>>>>>> Add termination of the nodes
 		// Discount initial reading of force sensor
 		force -= fcal;
 		// Transform 6D force from sensor to contact point

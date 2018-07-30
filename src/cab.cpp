@@ -67,15 +67,26 @@ void Cab::callbackJointsState_(const sensor_msgs::JointState::ConstPtr& msg)
 	else ROS_WARN_STREAM("Joint position vector with wrong size");
 }
 
-void Cab::setJointPos(const Eigen::Matrix<double, Eigen::Dynamic, 1> &q)
+int Cab::setJointPos(const Eigen::Matrix<double, Eigen::Dynamic, 1> &q)
 {
 	if(gotRobotState){
 		Eigen::Matrix<double, Eigen::Dynamic, 1> dq; dq.resize(q.size()); dq.setZero();
-		for(int idx=0; idx<q.size()-1; idx++){
-			dq(idx) = VAL_SAT((Kp_(idx)*(q(idx) - jointValues(idx))), -dqMax_(idx), dqMax_(idx));
+		while ((jointValues-q).norm() > 0.1) {
+			for(int idx=0; idx<q.size()-1; idx++){
+				dq(idx) = VAL_SAT((Kp_(idx)*(q(idx) - jointValues(idx))), -dqMax_(idx), dqMax_(idx));
+			}
+			setJointVel(dq);
 		}
-		setJointVel(dq);
+		dq.setZero();
+		int count = 0;
+		while(count < 10){
+			setJointVel(dq);
+			ros::Duration(0.2).sleep(); // sleep for half a second
+			count++;
+		}
+		return 0;
 	}
+	else return 1;
 }
 
 void Cab::setJointVel(const Eigen::Matrix<double, Eigen::Dynamic, 1> &dq)

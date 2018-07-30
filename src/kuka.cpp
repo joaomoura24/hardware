@@ -48,7 +48,7 @@ void Kuka::callbackJointsState_(const ipab_lwr_msgs::FriState::ConstPtr& msg)
 	else ROS_WARN_STREAM("Joint position vector with wrong size");
 }
 
-void Kuka::setJointPos(const Eigen::Matrix<double, Eigen::Dynamic, 1> &q)
+int Kuka::setJointPos(const Eigen::Matrix<double, Eigen::Dynamic, 1> &q)
 {
 	// Fill in message:
 	msgJointsState_.header.stamp = ros::Time::now();
@@ -57,6 +57,7 @@ void Kuka::setJointPos(const Eigen::Matrix<double, Eigen::Dynamic, 1> &q)
 		msgJointsState_.jointPosition.push_back(VAL_SAT(q(idx), kin.jointLowerLimits(idx), kin.jointUpperLimits(idx)));
 	}
 	pubJointsState_.publish(msgJointsState_);
+	return 0;
 }
 
 void Kuka::setJointVel(const Eigen::Matrix<double, Eigen::Dynamic, 1> &dq)
